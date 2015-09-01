@@ -164,8 +164,10 @@ function runAndUpdate(metalsmith, files, livereload, options, previousFilesMap) 
     Object.keys(freshFiles).forEach(function (path) {
       previousFilesMap[path] = freshFiles[path];
       var newPath = path.split("../").join("./");
-      freshFiles[newPath] = freshFiles[path];
-      delete freshFiles[path];
+      if (newPath !== path) {
+        freshFiles[newPath] = freshFiles[path];
+        delete freshFiles[path];
+      }
     });
 
     metalsmith.write(freshFiles, function (writeErr) {
