@@ -137,6 +137,9 @@ function runAndUpdate(metalsmith, files, livereload, options, previousFilesMap) 
     // metalsmith-collections fix:  update ref for future tests
     Object.keys(freshFiles).forEach(path => {
       previousFilesMap[path] = freshFiles[path]
+      const newPath = path.split("../").join("./")
+      freshFiles[newPath] = freshFiles[path]
+      delete freshFiles[path]
     })
 
     metalsmith.write(freshFiles, function(writeErr) {
